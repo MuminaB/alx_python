@@ -1,7 +1,6 @@
 def add(a, b):
     return a + b
-
-a = int(input(""))
-b = int(input(""))
-print(add(a, b))
-  
+print(add(1, 2))
+print(add(100, -2))
+print(add(-100, -2))
+print(add(0, 0))
