@@ -1,7 +1,7 @@
 def pow(a, b):
     return a ** b
 
-a = int(input("Enter base number:" ))
-b = int(input("Enter power: "))
+a = int(input(""))
+b = int(input(""))
 print(pow(a, b))
   
