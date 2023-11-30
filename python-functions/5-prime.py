@@ -1,4 +1,7 @@
 def is_prime(number):
+    for i in range(2, number):
+        if number % i == 0:
+            return False
     if number <= 1:
         return False
     primeNumber = True
@@ -6,7 +9,4 @@ def is_prime(number):
         return True
     else:
         return False
-    for i in range(2, number):
-        if number % i == 0:
-            return False
            
