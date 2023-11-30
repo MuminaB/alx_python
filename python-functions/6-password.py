@@ -1,6 +1,6 @@
 def validate_password(password):
     validate = True
-    if len(password) > 8:
+    if len(password) > 7:
         return validate
     if not any(char.isupper()for char in password):
         return not validate
