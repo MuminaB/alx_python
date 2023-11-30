@@ -10,7 +10,8 @@ def validate_password(password):
         return not validate
     if not any(char.isspace()for char in password):
         return not validate
-    if validate:
-        return True
-    else: 
+    if not validate:
         return False
+    else: 
+        return True
+       
