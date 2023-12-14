@@ -1,7 +1,10 @@
 """class Square that defines a square"""
 
 class Square:
+    """class Square that defines a square"""
+    __size = None
 
-    """ Empty class Square that defines a square"""
-    pass
+    def __init__(self, size):
+        """Instation with size"""
+        self.__size = size
  
