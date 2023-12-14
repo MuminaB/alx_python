@@ -1,12 +1,11 @@
-"""Module implementing BaseGeometry class"""
+"""Defines a base geometry class BaseGeometry."""
+
 
 class BaseGeometry:
-    """BaseGeometry class"""
-    def __init__(self):
-        """Initialize new instance of BaseGeometry"""
-        pass
+    """this class represents a base geometry"""
 
     def area(self):
-        """Compute area of self"""
-        raise Exception('area() is not implemented')
+        """method not implemented yet"""
+        raise Exception("area() is not implemented")
+      
      
