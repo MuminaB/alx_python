@@ -1,4 +1,5 @@
 """Code to extend BaseGeometry with Rectangle class"""
+
 BaseGeometry = __import__('5-base_geometry').BaseGeometry
 
 
@@ -7,7 +8,7 @@ class Rectangle(BaseGeometry):
     """Class to represent a rectangle"""
 
     def __init__(self, width, height):
-        
+
         """Initialize new rectangle
 
         Args:
