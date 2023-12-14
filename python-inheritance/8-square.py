@@ -1,4 +1,4 @@
-"""Code to extend BaseGeometry with Rectangle class"""
+"""Module to extend BaseGeometry with Rectangle class"""
 
 BaseGeometry = __import__('5-base_geometry').BaseGeometry
 

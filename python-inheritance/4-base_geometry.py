@@ -1,4 +1,4 @@
-"""Code implementing BaseGeometry class"""
+"""Module implementing BaseGeometry class"""
 
 class BaseGeometry:
     """BaseGeometry class"""
