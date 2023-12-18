@@ -1,3 +1,6 @@
+"""Module to represent Base object to be extended by Square and Rectangle."""
+
+
 class Base:
     """Base class to be subclassed by Square and Rectangle"""
     __nb_object = 0
