@@ -1,14 +1,11 @@
-"""fetches https://intranet.hbtn.io/status"""
-
-import urllib.request
-import urllib.parse
-
+"""Fetch URL using requests package"""
 
 if __name__ == "__main__":
-    with urllib.request.urlopen('https://intranet.hbtn.io/status') as response:
-        html = response.read()
-        print('Body response:')
-        print('\t- type:', type(html))
-        print('\t- content:', html)
-        print('\t- utf8 content:', html.decode('UTF-8'))
-         
+    from requests import get
+
+    url = 'https://intranet.hbtn.io/status'
+    response = get(url)
+    bytes_content = response.text
+    string = 'Body response:\n\t- type: {}\n\t- content: {}'.format(
+        type(bytes_content), bytes_content)
+    print(string)
