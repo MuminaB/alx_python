@@ -3,8 +3,10 @@
     Takes three arguments: username, password and database name
 """
 import MySQLdb
+import sys
+
 if __name__ == "__main__":
-    database = MySQLdb.connect(user = "mumi", passwd = "password", db = "hbtn_0e_0_usa")
+    database = MySQLdb.connect(user = sys.argv[1], passwd = sys.argv[2], db = sys.argv[3])
     cursor = database.cursor()
     cursor.execute("SELECT * FROM `states`")
     #[print(state) for state in cursor.fetchall()]
