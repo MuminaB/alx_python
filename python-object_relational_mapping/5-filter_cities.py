@@ -13,5 +13,5 @@ if __name__ == "__main__":
     
     states = c.fetchall()
     for state in states:
-        print(", ".join(state[1]))
+        print(", ".join([state[1]]))
           
