@@ -12,6 +12,6 @@ if __name__ == "__main__":
               ON cities.state_id = states.id WHERE states.name = '{}';" .format(sys.argv[4]))
     
     states = c.fetchall()
-    for state in states:
-        print(", ")
+   
+    print(", ".join([state[1] for state in states]))
             
