@@ -24,8 +24,9 @@ def c(text):
     return "C " + text
 
 """route for '/python/<text>'"""
-@app.route("/python/<text>", defaults=("text":"is cool") strict_slashes=False)
-@app.route("/python/<text>", strict_slashes=False)
+"""url with a text parameter"""
+@app.route("/python/", defaults={"text": "is cool"}, strict_slashes=False) 
+@app.route("/python/<text>", strict_slashes=False) #url without any text parameter
 def python(text):
     text = text.replace("_", " ")
     return "Python " + text
