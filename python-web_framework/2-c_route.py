@@ -19,8 +19,9 @@ def hbnb():
 
 """route fro '/c/<text>'"""
 @app.route("/c/<text>", strict_slashes=False)
-def hbnb():
-    return "C"
+def c(text):
+    text = text.replace("_", " ")
+    return "C" + text
 
 """run the app on required ip and port"""
 if __name__ == "__main__":
