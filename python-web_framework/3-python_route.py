@@ -23,6 +23,12 @@ def c(text):
     text = text.replace("_", " ")
     return "C " + text
 
+"""route for '/python/<text>'"""
+@app.route("/python/<text>", strict_slashes=False)
+def python(text):
+    text = text.replace("_", " ")
+    return "Python " + text
+
 """run the app on required ip and port"""
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
