@@ -67,6 +67,37 @@ def users():
     users = User.query.all()
     return render_template('users.html', users=users)
 
+@app.route('/update_user/<int:user_id>', methods=['GET', 'POST'])
+def update_user(user_id):
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+
+        # Validate the data: ensure both fields are provided
+        if not name or not email:
+            flash('Please provide both name and email.')
+            return render_template('update_user.html')
+
+        user = User.query.get(user_id)
+
+        if user:
+            # Update the user's name and email
+            user.name = name
+            user.email = email
+
+            try:
+                db.session.commit()
+                flash('User updated successfully!')
+
+            except Exception as e:
+                db.session.rollback()
+                flash(f'An error occurred. {e}')
+        else:
+            flash(f'No user with id {user_id} found.')
+
+    # For GET requests, render the update_user.html template
+    return render_template('update_user.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
