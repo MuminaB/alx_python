@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for
+from flask import Flask, request, render_template, flash, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 import re
 import sys
@@ -98,6 +98,52 @@ def update_user(user_id):
     # For GET requests, render the update_user.html template
     return render_template('update_user.html')
 
+##updating a user
+
+@app.route('/update_user/<int:user_id>', methods=['GET', 'POST'])
+def update_user(user_id):
+    if request.method == 'GET':
+        user = User.query.get(user_id)
+        if not user:
+            flash('User not found')
+            return redirect(url_for('index'))
+        return render_template('update_user.html', user=user)
+    elif request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        if not name or not email:
+            flash('Name and email are required')
+            return redirect(url_for('update_user', user_id=user_id))
+        user = User.query.get(user_id)
+        if not user:
+            flash('User not found')
+            return redirect(url_for('index'))
+        user.name = name
+        user.email = email
+        try:
+            db.session.commit()
+            flash('User updated successfully')
+            return redirect(url_for('index'))
+        except Exception as e:
+            flash(f'An error occurred: {e}')
+            return redirect(url_for('update_user', user_id=user_id))
+    return None
+
+##deleting a user
+
+@app.route('/delete_user/<int:user_id>', methods=['GET'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        abort(404)
+    db.session.delete(user)
+    try:
+        db.session.commit()
+        flash('User deleted successfully')
+        return redirect(url_for('index'))
+    except Exception as e:
+        flash(f'An error occurred: {e}')
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
