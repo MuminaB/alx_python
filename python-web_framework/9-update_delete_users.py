@@ -143,7 +143,8 @@ def delete_user(user_id):
         return redirect(url_for('index'))
     except Exception as e:
         flash(f'An error occurred: {e}')
-        return redirect(url_for('index'))
+        #return redirect(url_for('index'))
+        return render_template('delete_user.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
