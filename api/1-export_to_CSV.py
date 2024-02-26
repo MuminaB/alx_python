@@ -1,4 +1,3 @@
-import csv
 import requests
 
 def get_employee_todo_progress(employee_id):
@@ -17,14 +16,10 @@ def get_employee_todo_progress(employee_id):
         total_tasks = len(todos_data)
         done_tasks = sum(1 for todo in todos_data if todo["completed"])
 
-        csv_filename = f"{employee_id}.csv"
-        with open(csv_filename, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-            for todo in todos_data:
-                writer.writerow([employee_id, employee_name, todo["completed"], todo["title"]])
-
-        print(f"CSV file '{csv_filename}' created successfully!")
+        print(f"Employee {employee_name} is done with tasks ({done_tasks}/{total_tasks}):")
+        for todo in todos_data:
+            if todo["completed"]:
+                print(f"\t{todo['title']}")
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
