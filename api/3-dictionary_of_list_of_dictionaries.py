@@ -3,10 +3,10 @@ import requests
 
 def get_all_employees_todo_progress():
     """
-    Retrieves TODO list progress for all employees using the REST API.
+    Retrieves todo list progress for all employees using the REST API.
 
     Returns:
-        None: Displays the employee TODO list progress in the specified format.
+        None: Displays the employee todo list progress in the specified format.
     """
     base_url = "https://jsonplaceholder.typicode.com/users"
 
