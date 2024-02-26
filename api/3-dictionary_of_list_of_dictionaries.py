@@ -1,43 +1,40 @@
-import requests
 import json
+import requests
 
-def get_all_employees_todo_progress():
-    base_url = "https://jsonplaceholder.typicode.com/users"
+def get_employee_todo_progress(employee_id):
+    """
+    Retrieves TODO list progress for a given employee ID using the REST API.
+
+    Args:
+        employee_id (int): The ID of the employee.
+
+    Returns:
+        None: Displays the employee's TODO list progress in the specified format.
+    """
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_endpoint = f"{base_url}/users/{employee_id}"
+    todos_endpoint = f"{base_url}/users/{employee_id}/todos"
 
     try:
-        users_response = requests.get(base_url)
-        users_data = users_response.json()
+        user_response = requests.get(user_endpoint)
+        user_data = user_response.json()
+        employee_name = user_data["name"]
 
-        all_employees_tasks = {}
+        todos_response = requests.get(todos_endpoint)
+        todos_data = todos_response.json()
 
-        for user in users_data:
-            employee_id = user["id"]
-            employee_name = user["name"]
+        total_tasks = len(todos_data)
+        done_tasks = sum(1 for todo in todos_data if todo["completed"])
 
-            todos_endpoint = f"{base_url}/{employee_id}/todos"
-            todos_response = requests.get(todos_endpoint)
-            todos_data = todos_response.json()
-
-            employee_tasks = [
-                {
-                    "username": employee_name,
-                    "task": todo["title"],
-                    "completed": todo["completed"]
-                }
-                for todo in todos_data
-            ]
-
-            all_employees_tasks[str(employee_id)] = employee_tasks
-
-        json_filename = "todo_all_employees.json"
-        with open(json_filename, "w") as json_file:
-            json.dump(all_employees_tasks, json_file, indent=4)
-
-        print(f"JSON file '{json_filename}' created successfully!")
+        print(f"Employee {employee_name} is done with tasks ({done_tasks}/{total_tasks}):")
+        for todo in todos_data:
+            if todo["completed"]:
+                print(f"\t{todo['title']}")
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
 
 if __name__ == "__main__":
-    get_all_employees_todo_progress()
-  
+    employee_id = int(input("Enter the employee ID: "))
+    get_employee_todo_progress(employee_id)
+   
