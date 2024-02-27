@@ -28,9 +28,13 @@
 #     employee_id = int(input("Enter the employee ID: "))
 #     get_employee_todo_progress(employee_id)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
    
 >>>>>>> 0fc902a (try again)
+=======
+   
+>>>>>>> e397c71 (nm)
 
 import requests
 import sys
@@ -57,7 +61,11 @@ def get_employee_todo_progress(employee_id):
 if __name__ == "__main__":
     get_employee_todo_progress(int(sys.argv[1]))
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 =======
  
 >>>>>>> 0fc902a (try again)
+=======
+ 
+>>>>>>> e397c71 (nm)
