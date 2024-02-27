@@ -2,6 +2,7 @@ import json
 import requests
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import sys
 =======
 import csv
@@ -15,6 +16,11 @@ def export_employee_todo_to_json(employee_id):
     Retrieves todo list progress for a given employee ID using the REST API.
 =======
 def get_employee_todo_progress(employee_id):
+=======
+import sys
+
+def export_employee_todo_to_json(employee_id):
+>>>>>>> 47515b6 (commit)
     """
     Retrieves todo list progress for a given employee ID using the REST API.
 
@@ -24,6 +30,7 @@ def get_employee_todo_progress(employee_id):
     Returns:
         None: Displays the employee's todo list progress in the specified format.
     """
+<<<<<<< HEAD
     base_url = "https://jsonplaceholder.typicode.com"
     user_endpoint = f"{base_url}/users/{employee_id}"
     todos_endpoint = f"{base_url}/users/{employee_id}/todos"
@@ -94,3 +101,24 @@ if __name__ == "__main__":
 =======
    
 >>>>>>> 0548cc1 (try)
+=======
+    employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    employee = employee_response.json()
+
+    todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+    todos = todos_response.json()
+
+    data = {employee_id: []}
+    for todo in todos:
+        data[employee_id].append({
+            "task": todo['title'],
+            "completed": todo['completed'],
+            "username": employee["username"]
+        })
+
+    with open(f'{employee_id}.json', 'w') as file:
+        json.dump(data, file)
+
+if __name__ == "__main__":
+    export_employee_todo_to_json(int(sys.argv[1]))
+>>>>>>> 47515b6 (commit)
