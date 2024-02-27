@@ -1,32 +1,35 @@
-import requests
 import csv
+import requests
+import sys
 
-def get_employee_todo_progress(employee_id):
-    base_url = "https://jsonplaceholder.typicode.com"
-    user_endpoint = f"{base_url}/users/{employee_id}"
-    todos_endpoint = f"{base_url}/users/{employee_id}/todos"
+def export_employee_todo_to_csv(employee_id):
+    """
+    Retrieves TODO list progress for a given employee ID using the REST API.
 
-    try:
-        user_response = requests.get(user_endpoint)
-        user_data = user_response.json()
-        employee_name = user_data["name"]
+    Args:
+        employee_id (int): The ID of the employee.
 
-        todos_response = requests.get(todos_endpoint)
-        todos_data = todos_response.json()
+    Returns:
+        None: Displays the employee's TODO list progress in the specified format.
+    """
+    # Fetch employee details
+    employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    employee = employee_response.json()
 
-        csv_filename = f"{employee_id}.csv"
-        with open(csv_filename, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-            for todo in todos_data:
-                writer.writerow([employee_id, employee_name, todo["completed"], todo["title"]])
+    # Fetch employee's TODOs
+    todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+    todos = todos_response.json()
 
-        print(f"CSV file '{csv_filename}' created successfully!")
+    # Prepare data for CSV
+    data = []
+    for todo in todos:
+        data.append([employee_id, employee["name"], todo['completed'], todo['title']])
 
-    except requests.RequestException as e:
-        print(f"Error fetching data: {e}")
+    # Write data to CSV
+    with open(f'{employee_id}.csv', 'w', newline='') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+        writer.writerows(data)
 
 if __name__ == "__main__":
-    employee_id = int(input("Enter the employee ID: "))
-    get_employee_todo_progress(employee_id)
-  
+    export_employee_todo_to_csv(int(sys.argv[1]))
+ 
