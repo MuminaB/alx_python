@@ -27,6 +27,10 @@
 # if __name__ == "__main__":
 #     employee_id = int(input("Enter the employee ID: "))
 #     get_employee_todo_progress(employee_id)
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 0fc902a (try again)
 
 import requests
 import sys
@@ -52,4 +56,8 @@ def get_employee_todo_progress(employee_id):
 
 if __name__ == "__main__":
     get_employee_todo_progress(int(sys.argv[1]))
+<<<<<<< HEAD
   
+=======
+ 
+>>>>>>> 0fc902a (try again)
