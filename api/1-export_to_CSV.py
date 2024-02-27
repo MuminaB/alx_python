@@ -12,7 +12,6 @@ def export_employee_todo_to_csv(employee_id):
     Returns:
         None: Displays the employee's TODO list progress in the specified format.
     """
-    # Fetch employee details
     employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
     employee = employee_response.json()
 
@@ -23,7 +22,7 @@ def export_employee_todo_to_csv(employee_id):
     # Prepare data for CSV
     data = []
     for todo in todos:
-        data.append([employee_id, employee["name"], todo['completed'], todo['title']])
+        data.append([employee_id, employee["username"], todo['completed'], todo['title']])
 
     # Write data to CSV
     with open(f'{employee_id}.csv', 'w', newline='') as file:
