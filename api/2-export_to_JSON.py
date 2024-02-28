@@ -15,11 +15,9 @@ def export_employee_todo_to_json(employee_id):
     employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
     employee = employee_response.json()
 
-    # Fetch employee's TODOs
     todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
     todos = todos_response.json()
 
-    # Prepare data for JSON
     data = {employee_id: []}
     for todo in todos:
         data[employee_id].append({
@@ -28,7 +26,6 @@ def export_employee_todo_to_json(employee_id):
             "username": employee["username"]
         })
 
-    # Write data to JSON
     with open(f'{employee_id}.json', 'w') as file:
         json.dump(data, file)
 
