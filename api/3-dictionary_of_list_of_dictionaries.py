@@ -1,49 +1,32 @@
 import json
 import requests
 
-def get_all_employees_todo_progress():
-    """
-    Retrieves todo list progress for all employees using the REST API.
+def export_all_employee_todo_to_json():
+    # Fetch all employee details
+    all_employee_response = requests.get('https://jsonplaceholder.typicode.com/users')
+    all_employees = all_employee_response.json()
 
-    Returns:
-        None: Displays the employee todo list progress in the specified format.
-    """
-    base_url = "https://jsonplaceholder.typicode.com/users"
+    data = {}
 
-    try:
-        users_response = requests.get(base_url)
-        users_data = users_response.json()
+    for employee in all_employees:
+        employee_id = employee["id"]
 
-        all_employees_tasks = {}
+        # Fetch employee's TODOs
+        todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+        todos = todos_response.json()
 
-        for user in users_data:
-            employee_id = user["id"]
-            employee_name = user["name"]
+        # Prepare data for JSON
+        data[employee_id] = []
+        for todo in todos:
+            data[employee_id].append({
+                "task": todo['title'],
+                "completed": todo['completed'],
+                "username": employee["username"]
+            })
 
-            todos_endpoint = f"{base_url}/{employee_id}/todos"
-            todos_response = requests.get(todos_endpoint)
-            todos_data = todos_response.json()
-
-            employee_tasks = [
-                {
-                    "username": employee_name,
-                    "task": todo["title"],
-                    "completed": todo["completed"]
-                }
-                for todo in todos_data
-            ]
-
-            all_employees_tasks[str(employee_id)] = employee_tasks
-
-        json_filename = "todo_all_employees.json"
-        with open(json_filename, "w") as json_file:
-            json.dump(all_employees_tasks, json_file, indent=4)
-
-        print(f"JSON file '{json_filename}' created successfully!")
-
-    except requests.RequestException as e:
-        print(f"Error fetching data: {e}")
+    # Write data to JSON
+    with open('todo_all_employees.json', 'w') as file:
+        json.dump(data, file)
 
 if __name__ == "__main__":
-    get_all_employees_todo_progress()
-   
+    export_all_employee_todo_to_json()
