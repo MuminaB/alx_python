@@ -2,109 +2,37 @@ import csv
 import requests
 import sys
 
-def get_employee_todo_progress(employee_id):
-    """
-    Retrieves and displays the TODO list progress of a given employee, also exporting data to a CSV file.
+def export_employee_todo_to_csv(employee_id):
+    ""
+    Retrieves TODO list progress for a given employee ID using the REST API.
 
     Args:
-        employee_id: The integer ID of the employee.
+        employee_id (int): The ID of the employee.
 
-    Raises:
-        ValueError: If the employee ID is not a positive integer.
+    Returns:
+        None: Displays the employee's TODO list progress in the specified format.
     """
-
-    if not isinstance(employee_id, int) or employee_id <= 0:
-        raise ValueError("Employee ID must be a positive integer.")
-
-    # Build API endpoints
-    details_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todos_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
-
+   
     # Fetch employee details
-    try:
-        response = requests.get(details_url)
-        response.raise_for_status()  # Raise exception for non-200 status codes
-        employee_data = response.json()
-        employee_name = employee_data["name"]
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching employee details: {e}")
-        return
+    employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    employee = employee_response.json()
 
-    # Fetch TODOs
-    try:
-        response = requests.get(todos_url)
-        response.raise_for_status()
-        todos = response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching TODOs: {e}")
-        return
+    # Fetch employee's TODOs
+    todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+    todos = todos_response.json()
 
-    # Prepare CSV data
-    csv_data = []
+    # Prepare data for CSV
+    data_for_csv = []
     for todo in todos:
-        csv_data.append([employee_id, employee_name, todo["completed"], todo["title"]])
+        data_for_csv.append([employee["id"], employee["username"], todo['completed'], todo['title']])
 
-    # Create filename
-    filename = f"{employee_id}.csv"
+    # Write data to CSV
+    with open(f'{employee_id}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        writer.writerows(data_for_csv)
 
-    # Export data to CSV
-    try:
-        with open(filename, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-            writer.writerows(csv_data)
-        print(f"Data exported to {filename}")
-    except OSError as e:
-        print(f"Error writing to file: {e}")
-
-    # Display progress (optional, comment out if not needed)
-    # print(f"Employee {employee_name} is done with tasks({done_tasks}/{total_tasks}):")
-    # for title in done_task_titles:
-    #     print(f"\t {title}")
-
+    print(f'Data exported to {employee_id}.csv')
 
 if __name__ == "__main__":
-    # Get employee ID from command line arguments
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
-    employee_id = int(sys.argv[1])
-
-    # Call the function
-    get_employee_todo_progress(employee_id)
-
-
-# def export_employee_todo_to_csv(employee_id):
-#     """
-#     Retrieves TODO list progress for a given employee ID using the REST API.
-
-#     Args:
-#         employee_id (int): The ID of the employee.
-
-#     Returns:
-#         None: Displays the employee's TODO list progress in the specified format.
-#     """
-   
-#     # Fetch employee details
-#     employee_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
-#     employee = employee_response.json()
-
-#     # Fetch employee's TODOs
-#     todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
-#     todos = todos_response.json()
-
-#     # Prepare data for CSV
-#     data_for_csv = []
-#     for todo in todos:
-#         data_for_csv.append([employee["id"], employee["username"], todo['completed'], todo['title']])
-
-#     # Write data to CSV
-#     with open(f'{employee_id}.csv', 'w', newline='') as file:
-#         writer = csv.writer(file)
-#         writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-#         writer.writerows(data_for_csv)
-
-#     print(f'Data exported to {employee_id}.csv')
-
-# if __name__ == "__main__":
-#     get_employee_todo_progress(int(sys.argv[1]))
+    get_employee_todo_progress(int(sys.argv[1]))
